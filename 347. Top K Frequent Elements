@@ -1,0 +1,37 @@
+// To use bucket sort, we need to find some range or limit. For example, all numbers in array are no bigger than xxx, or 
+// frequencies of numbers within some limit.
+// time complexity - O(n)
+
+class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        
+        // <num, frequency>
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        
+        for (int n : nums) {
+            freqMap.put(n, freqMap.getOrDefault(n, 0) + 1);
+        }
+        
+        // bucket [frequency] -> list of numbers with that particular frequency
+        List<Integer>[] bucket = new List[nums.length+1];
+        
+        for (int n : freqMap.keySet()) {
+            int freq = freqMap.get(n);
+            if (bucket[freq] == null) {
+                bucket[freq] = new ArrayList<Integer>();
+            }
+            bucket[freq].add(n);
+        }
+        
+        List<Integer> res = new ArrayList<>();
+        
+        for (int i = nums.length; i >=0; i--) {
+            if (bucket[i] != null) res.addAll(bucket[i]);
+            
+            // in case multiple numbers with the same freq, may use >= here.
+            if (res.size() == k) break;
+        }
+        
+        return res;
+    }
+}
