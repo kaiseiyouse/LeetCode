@@ -1,0 +1,24 @@
+// use two pointers to time complexity - O(n)
+// substring within start and end always satisfies two distinct characters condition
+// when condition was violated, moving pointers and updating new max length
+
+public int lengthOfLongestSubstringTwoDistinct(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        int start = 0, end = 0;
+        int distinct = 0, maxLen = 0;
+        while(end < s.length()){
+            char cur = s.charAt(end);
+            map.put(cur, map.getOrDefault(cur, 0) + 1);
+            if(map.get(cur) == 1) distinct++;
+
+            while(distinct > 2){
+                char startChar = s.charAt(start);
+                map.put(startChar, map.get(startChar) - 1);
+                if(map.get(startChar) == 0) distinct--;
+                start++;
+            }
+            maxLen = Math.max(end - start + 1, maxLen);
+            end++;
+        }
+        return maxLen;
+    }
