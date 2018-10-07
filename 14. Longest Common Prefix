@@ -1,0 +1,59 @@
+// build a Trie
+// Time complexity : preprocessing O(S), where S is the number of all characters in the string array.
+// LCP query complexity: O(m), where m is the length of the LCP.
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        Trie trie = new Trie();
+        for (String str : strs) trie.insert(str);
+        return trie.LCP();
+    }
+
+    class TrieNode {
+        private Map<Character, TrieNode> links;
+        boolean isWord;
+        
+        TrieNode() {
+            links = new HashMap<>();
+            isWord = false;
+        }
+    }
+
+    public class Trie {
+        private TrieNode root;
+        private boolean containsEmptyString;
+
+        Trie() {
+            root = new TrieNode();
+        }
+
+        void insert(String word) {
+            if (word.equals("")) {
+                containsEmptyString = true;
+                return;
+            }
+            TrieNode node = root;
+            for (char c : word.toCharArray()) {
+                if (!node.links.containsKey(c)) {
+                    TrieNode newNode = new TrieNode();
+                    node.links.put(c, newNode);
+                }
+                node = node.links.get(c);
+            }
+            node.isWord = true;
+        }
+
+        String LCP() {
+            if (containsEmptyString) return "";
+            TrieNode node = root;
+            StringBuilder sb = new StringBuilder();
+            while (node.links.size() == 1 && !node.isWord) {
+                char c = node.links.keySet().iterator().next();
+                sb.append(c);
+                node = node.links.get(c);
+            }
+            return sb.toString();
+        }
+
+    }
+}
