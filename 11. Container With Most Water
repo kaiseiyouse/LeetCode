@@ -1,0 +1,24 @@
+// use two pointers method O(n) time complexity
+// one truth is that the container height is bounded by the shorter of two bars, 
+// so moving the taller one towards the shorter one is meaningless.
+// on each iteration, we move the shorter one towards the taller until they meet and record the max area founded.
+
+class Solution {
+    public int maxArea(int[] height) {
+        int start = 0, end = height.length - 1;
+        int maxArea = 0;
+        while (start < end) {
+            int area = (end-start) * Math.min(height[start], height[end]);
+            maxArea = Math.max(maxArea, area);
+            if (height[start] < height[end]) {
+                start++;
+            } else if (height[start] > height[end]) {
+                end--;
+            } else {
+                start++;
+                end--;
+            }
+        }
+        return maxArea;
+    }
+}
