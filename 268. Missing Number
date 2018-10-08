@@ -1,0 +1,48 @@
+//
+
+// Approach 1:
+// if we have 2, then mark the 2nd number as negative, if we have 4, mark the 4th, so on and so forth
+// 0 needs special consideration
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int zeroIdx = -1;
+        for (int n : nums) {
+            if (n < 0) n = -n;
+            if (n != 0)
+                nums[n-1] = -nums[n-1];
+        }
+        for (int i = 0;i < nums.length; i++) {
+            if (nums[i] == 0) zeroIdx = i;
+            if (nums[i] > 0) return i+1;
+        }
+        return zeroIdx != -1 ? zeroIdx + 1 : 0;
+    }
+}
+
+
+// Approach 2:
+// bit manipulation  XOR
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int missing = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            missing ^= i ^ nums[i];
+        }
+        return missing;
+    }
+}
+
+
+// Approach 3:
+// Gauss formla
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int expectedSum = nums.length*(nums.length + 1)/2;
+        int actualSum = 0;
+        for (int num : nums) actualSum += num;
+        return expectedSum - actualSum;
+    }
+}
