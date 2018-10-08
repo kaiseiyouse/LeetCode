@@ -1,0 +1,30 @@
+// use a stack
+// matched parentheses must be next to each other in the stack
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '[' || c == '{') {
+                stack.push(c);
+            } else {
+                char left = ' ';
+                switch (c) {
+                    case ')':
+                        left = '(';
+                        break;
+                    case ']':
+                        left = '[';
+                        break;
+                    case '}':
+                        left = '{';
+                        break;
+                    default:
+                        break;
+                }
+                if (stack.isEmpty() || stack.pop() != left) return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+}
