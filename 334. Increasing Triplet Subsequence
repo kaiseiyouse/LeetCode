@@ -1,0 +1,17 @@
+// O(n) time complexity, O(1) space complexity
+// in this problem we just need to determine whether the subsequence exists. so after assigning the value to min and secondMin, 
+// even though there might be a smaller value afterward and the variable min gets updated, 
+// it does not affect the increasing subsequence overall as long as there is an integer that is larger than 'secondMin'
+
+
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+        int small = Integer.MAX_VALUE, big = Integer.MAX_VALUE;
+        for (int n : nums) {
+            if (n <= small) small = n;
+            else if (n <= big) big = n;
+            else return true;
+        }
+        return false;
+    }
+}
