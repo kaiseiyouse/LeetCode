@@ -1,0 +1,27 @@
+// sliding window O(n) time complexity
+// invariant - the while loop guarantees that the number of each character in the window is always less than or equal to that in s, 
+// never more than.
+// so when window size equals p.length(), we find a anagram.
+
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        int hash[] = new int[26];
+        for(char c : p.toCharArray()) hash[c-'a']++;
+        List<Integer> result = new ArrayList<>();
+        int start = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int idx = s.charAt(i)-'a';
+            hash[idx]--;
+            while (hash[idx] < 0) {
+                hash[s.charAt(start)-'a']++;
+                start++;
+            }
+            if ((i-start+1) == p.length()) {
+                result.add(start);
+                hash[s.charAt(start)-'a']++;
+                start++;
+            }
+        }
+        return result;
+    }
+}
